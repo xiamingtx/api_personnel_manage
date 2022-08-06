@@ -1,7 +1,7 @@
 package com.management.config;
 
+import com.management.filter.JwtAuthenticationTokenFilter;
 import com.management.service.UserAuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,21 +29,16 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)	// 启用方法级别的权限认证
 public class SecurityConfiguration extends WebSecurityConfiguration {
+
+    public static final String SECRET = "xm";
+    public static final long EXPIRATION_TIME = 3600000; // 1h
+
     @Resource
-    private UserAuthService authService;
-
-    // 权限不足错误信息处理，包含认证错误与鉴权错误处理
-//    @Resource
-//    private JwtAuthError jwtAuthError;
-
-    // jwt 校验过滤器，从 http 头部 Authorization 字段读取 token 并校验
-//    @Bean
-//    public JwtAuthFilter authFilter() throws Exception {
-//        return new JwtAuthFilter();
-//    }
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     /**
      * 密码明文加密方式配置
+     * 创建BCryptPasswordEncoder注入容器
      * @return
      */
     @Bean
@@ -67,23 +62,17 @@ public class SecurityConfiguration extends WebSecurityConfiguration {
         return http
                 // 基于 token，不需要 csrf
                 .csrf().disable()
-                .formLogin()
-                .and()
-                // 基于 token，不需要 session
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                // 设置 jwtAuthError 处理认证失败、鉴权失败
-//                .exceptionHandling().authenticationEntryPoint(jwtAuthError).accessDeniedHandler(jwtAuthError).and()
-                // 下面开始设置权限
+                // 基于 token，不需要 session,不通过session获取SecurityContext
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                // 下面开始设置权限 对于auth下的接口 允许匿名访问
                 .authorizeRequests(authorize -> authorize
-                        // 请求放开
-                        .antMatchers("/auth/**").permitAll()
+                        // 配置请求 登录相关接口设置匿名访问
+                        .antMatchers("/auth/login", "/auth/register").anonymous()
                         // 其他地址的访问均需验证权限
                         .anyRequest().authenticated()
                 )
-                // 添加 JWT 过滤器，JWT 过滤器在用户名密码认证过滤器之前
-//                .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class)
-                // 认证用户时用户信息加载配置，注入springAuthUserService
-                .userDetailsService(authService)
+                // 添加认证过滤器
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

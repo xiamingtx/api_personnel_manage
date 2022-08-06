@@ -1,10 +1,12 @@
 package com.management.controller;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.management.ResponseResult;
+import com.management.entity.User;
+import com.management.service.UserAuthService;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author 夏明
@@ -12,11 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
 public class authController {
 
-    @GetMapping("/register")
+    @Resource
+    private UserAuthService userService;
+
+    @PostMapping("/register")
     public String register() {
-        System.out.println(new BCryptPasswordEncoder().encode("123456"));
         return "register";
+    }
+
+    @PostMapping("/login")
+    public ResponseResult<Map<String, String>> login(@RequestBody User user) {
+        return userService.login(user);
+    }
+
+    @PostMapping("/logout")
+    public ResponseResult logout() {
+        return userService.logout();
     }
 }
