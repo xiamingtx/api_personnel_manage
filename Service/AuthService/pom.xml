@@ -17,6 +17,7 @@
     </properties>
 
     <dependencies>
+        <!-- 权限校验模块 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -25,6 +26,12 @@
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>4.0.0</version>
+        </dependency>
+
+        <!-- 提供邮件发送功能 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
     </dependencies>
 

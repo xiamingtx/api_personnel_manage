@@ -2,6 +2,7 @@ package com.management.controller;
 
 import com.management.common.ResponseResult;
 import com.management.dto.UserCreateRequest;
+import com.management.dto.UserLoginRequest;
 import com.management.entity.User;
 import com.management.service.UserAuthService;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +23,17 @@ public class authController {
     private UserAuthService userService;
 
     @PostMapping("/register")
-    public String register() {
-        return "register";
+    public ResponseResult register(@RequestBody UserCreateRequest user) {
+        return userService.register(user);
+    }
+
+    @PostMapping("/code")
+    public ResponseResult sendCode(@RequestParam String mail) {
+        return userService.sendCode(mail);
     }
 
     @PostMapping("/login")
-    public ResponseResult<Map<String, String>> login(@RequestBody UserCreateRequest user) {
+    public ResponseResult<Map<String, String>> login(@RequestBody UserLoginRequest user) {
         return userService.login(user);
     }
 

@@ -2,6 +2,7 @@ package com.management.entity;
 
 import com.management.enums.Gender;
 import lombok.Data;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -19,12 +20,18 @@ public class User extends BaseEntity {
     @Column(name = "username", unique = true)   //对应表中username这一列
     String username;
 
+    private String nickname;
+
     @Column(name = "password")   //对应表中password这一列
     String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles; // 关联数据
+
+    private String mail;
+
+    private String mobile;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -35,5 +42,6 @@ public class User extends BaseEntity {
 
     private String lastLoginIp;
 
+    @UpdateTimestamp
     private Date lastLoginTime;
 }

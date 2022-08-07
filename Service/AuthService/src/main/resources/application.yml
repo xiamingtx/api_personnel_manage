@@ -1,4 +1,3 @@
-
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/personnel_management
@@ -15,5 +14,13 @@ spring:
     port: 6379
     #使用几号数据库
     database: 0
+  # 配置邮件发送
+  mail:
+    # 163邮箱的地址为smtp.163.com，直接填写即可
+    host: smtp.163.com
+    # 你申请的163邮箱
+    username: 18307478153@163.com
+    # 注意密码是在开启smtp/pop3时自动生成的，记得保存一下，不然就找不到了
+    password: CHXQPBKVRIGKTFMB
 server:
   port: 8002

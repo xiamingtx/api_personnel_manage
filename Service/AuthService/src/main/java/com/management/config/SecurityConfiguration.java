@@ -75,6 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfiguration {
                 .authorizeRequests(authorize -> authorize
                         // 配置请求 登录相关接口设置匿名访问
                         .antMatchers("/auth/login", "/auth/register").anonymous()
+                        .antMatchers("/auth/code").permitAll()
                         // 其他地址的访问均需验证权限
                         .anyRequest().authenticated()
                 )
