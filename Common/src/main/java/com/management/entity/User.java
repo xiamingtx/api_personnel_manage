@@ -1,21 +1,20 @@
 package com.management.entity;
 
+import com.management.enums.Gender;
 import lombok.Data;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author 夏明
  * @version 1.0
  */
 @Data
 @Entity
-@Table(name = "users")    //对应的数据库中表名称
-public class User{
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)   //生成策略，这里配置为自增
-    @Column(name = "id")    //对应表中id这一列
-    @Id
-    int id;
+public class User extends BaseEntity {
 
     @Column(name = "username", unique = true)   //对应表中username这一列
     String username;
@@ -23,6 +22,18 @@ public class User{
     @Column(name = "password")   //对应表中password这一列
     String password;
 
-    @Column(name = "role")
-    String Role;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles; // 关联数据
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    private Boolean locked = false;
+
+    private Boolean enabled = true;
+
+    private String lastLoginIp;
+
+    private Date lastLoginTime;
 }

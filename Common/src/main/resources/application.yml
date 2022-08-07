@@ -7,5 +7,13 @@ spring:
   jpa:
     #开启SQL语句执行日志信息
     show-sql: true
+    # 也可以设置jpa.generate-ddl:false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
+  flyway:
+    locations: classpath:db/migration # 默认配置
+    enabled: true # 默认
+    baseline-on-migrate: true
+    clean-on-validation-error: false
+server:
+  port: 8001

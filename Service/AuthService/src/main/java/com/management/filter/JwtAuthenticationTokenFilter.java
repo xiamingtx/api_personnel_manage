@@ -1,11 +1,10 @@
 package com.management.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.management.config.SecurityConfiguration;
-import com.management.dto.LoginUser;
+import com.management.common.UserDetailsEntity;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,14 +50,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
         // 从redis中获取用户信息
         String redisKey = "login:" + username;
-        LoginUser loginUser = JSON.parseObject(template.opsForValue().get(redisKey), LoginUser.class);
-        if (Objects.isNull(loginUser)) {
+        UserDetailsEntity userDetailsEntity = JSON.parseObject(template.opsForValue().get(redisKey), UserDetailsEntity.class);
+        if (Objects.isNull(userDetailsEntity)) {
             throw new RuntimeException("用户未登录");
         }
         // 存入SecurityContextHolder
-        // Todo: 获取权限信息封装到Authentication中
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+                new UsernamePasswordAuthenticationToken(userDetailsEntity, null, userDetailsEntity.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         // 放行
         filterChain.doFilter(request, response);

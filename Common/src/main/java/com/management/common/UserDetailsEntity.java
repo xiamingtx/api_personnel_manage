@@ -1,17 +1,13 @@
-package com.management.dto;
+package com.management.common;
 
 import com.alibaba.fastjson2.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.management.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +18,7 @@ import java.util.stream.Collectors;
  */
 @Data
 @NoArgsConstructor
-public class LoginUser implements UserDetails {
+public class UserDetailsEntity implements UserDetails {
 
     private User user;
 
@@ -32,7 +28,7 @@ public class LoginUser implements UserDetails {
     @JSONField(serialize = false)
     private List<GrantedAuthority> authorities;
 
-    public LoginUser(User user, List<String> permissions) {
+    public UserDetailsEntity(User user, List<String> permissions) {
         this.user = user;
         this.permissions = permissions;
     }
@@ -64,7 +60,7 @@ public class LoginUser implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !user.getLocked();
     }
 
     @Override
@@ -74,6 +70,6 @@ public class LoginUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.getEnabled();
     }
 }

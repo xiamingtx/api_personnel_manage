@@ -2,9 +2,8 @@ package com.management.handler;
 
 import com.management.exception.BizException;
 import com.management.exception.ExceptionType;
-import com.management.utils.ResponseResult;
+import com.management.common.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;

@@ -1,4 +1,4 @@
-package com.management.utils;
+package com.management.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

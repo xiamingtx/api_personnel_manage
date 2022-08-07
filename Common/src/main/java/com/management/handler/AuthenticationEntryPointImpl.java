@@ -1,7 +1,7 @@
 package com.management.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.management.utils.ResponseResult;
+import com.management.common.ResponseResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

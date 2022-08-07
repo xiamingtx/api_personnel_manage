@@ -44,6 +44,33 @@
             <artifactId>ksuid</artifactId>
             <version>1.1.1</version>
         </dependency>
+
+        <!-- 校验器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+        <!-- 引入flyway作为数据库版本记录工具-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
+
+        <!-- 使用mapstruct作为转换器 -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.2.Final</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.2.Final</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
+
 
 </project>

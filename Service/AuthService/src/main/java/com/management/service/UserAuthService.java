@@ -1,6 +1,7 @@
 package com.management.service;
 
-import com.management.utils.ResponseResult;
+import com.management.common.ResponseResult;
+import com.management.dto.UserCreateRequest;
 import com.management.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.Map;
 @Service
 public interface UserAuthService{
 
-    ResponseResult<Map<String, String>> login(User user);
+    ResponseResult<Map<String, String>> login(UserCreateRequest user);
 
     ResponseResult logout();
 }

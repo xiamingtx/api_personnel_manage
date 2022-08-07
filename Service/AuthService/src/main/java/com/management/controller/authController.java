@@ -1,6 +1,7 @@
 package com.management.controller;
 
-import com.management.utils.ResponseResult;
+import com.management.common.ResponseResult;
+import com.management.dto.UserCreateRequest;
 import com.management.entity.User;
 import com.management.service.UserAuthService;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class authController {
     }
 
     @PostMapping("/login")
-    public ResponseResult<Map<String, String>> login(@RequestBody User user) {
+    public ResponseResult<Map<String, String>> login(@RequestBody UserCreateRequest user) {
         return userService.login(user);
     }
 
