@@ -3,7 +3,7 @@ package com.management.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.management.ResponseResult;
+import com.management.utils.ResponseResult;
 import com.management.config.SecurityConfiguration;
 import com.management.dto.LoginUser;
 import com.management.entity.User;
@@ -13,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,12 +38,12 @@ public class UserAuthServiceImpl implements UserAuthService {
     StringRedisTemplate template;
 
     /**
-     *
      * 用户登录接口
+     *
+     * @param user
+     * @return ResponseResult<Map < String>>
      * @author 夏明
      * @date 2022/8/6 22:28
-     * @param user
-     * @return ResponseResult<Map<String>>
      */
     @Override
     public ResponseResult<Map<String, String>> login(User user) {
@@ -53,7 +55,7 @@ public class UserAuthServiceImpl implements UserAuthService {
             throw new RuntimeException("登陆失败");
         }
         // 如果认证通过了, 通过username生成jwt jwt存入ResponseResult返回
-        LoginUser loginUser = (LoginUser)authenticate.getPrincipal();
+        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         String username = loginUser.getUser().getUsername();
         String token = JWT.create()
                 .withSubject(username)
@@ -65,21 +67,21 @@ public class UserAuthServiceImpl implements UserAuthService {
         template.opsForValue().set("login:" + username, JSON.toJSONString(loginUser),
                 SecurityConfiguration.EXPIRATION_TIME, TimeUnit.MILLISECONDS);
 
-        return new ResponseResult<>(200, "登录成功", map);
+        return new ResponseResult<>(2000, "登录成功", map);
     }
 
     /**
-     *
      * 用户退出登录
+     *
+     * @return ResponseResult
      * @author 夏明
      * @date 2022/8/6 23:31
-     * @return ResponseResult
      */
     @Override
     public ResponseResult logout() {
         // 获取SecurityContextHolder中的username
         // 这里不需要删除SecurityContextHolder中的值 因为在其他请求进入过滤器时 我们会在redis中获取对象 如果为空就返回未登录
-        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         String username = loginUser.getUser().getUsername();
         // 删除redis中的值

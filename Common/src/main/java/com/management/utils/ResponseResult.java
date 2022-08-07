@@ -1,4 +1,4 @@
-package com.management;
+package com.management.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +20,10 @@ public class ResponseResult<T> {
      * 查询到的结果数据，
      */
     private T data;
+
+    public ResponseResult() {
+
+    }
 
     public ResponseResult(Integer code, String message) {
         this.code = code;

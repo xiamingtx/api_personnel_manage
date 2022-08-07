@@ -52,6 +52,7 @@
             <version>4.1.79.Final</version>
         </dependency>
 
+        <!--序列化工具-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>

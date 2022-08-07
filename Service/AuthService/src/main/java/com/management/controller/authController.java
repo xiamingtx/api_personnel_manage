@@ -1,6 +1,6 @@
 package com.management.controller;
 
-import com.management.ResponseResult;
+import com.management.utils.ResponseResult;
 import com.management.entity.User;
 import com.management.service.UserAuthService;
 import org.springframework.web.bind.annotation.*;

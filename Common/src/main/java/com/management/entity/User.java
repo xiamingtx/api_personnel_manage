@@ -15,7 +15,7 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)   //生成策略，这里配置为自增
     @Column(name = "id")    //对应表中id这一列
     @Id
-    int uid;
+    int id;
 
     @Column(name = "username", unique = true)   //对应表中username这一列
     String username;

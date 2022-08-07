@@ -4,6 +4,9 @@ spring:
     username: root
     password: xm
     driver-class-name: com.mysql.cj.jdbc.Driver
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
   redis:
     #Redis服务器地址
     host: 127.0.0.1
@@ -11,11 +14,3 @@ spring:
     port: 6379
     #使用几号数据库
     database: 0
-  main:
-    allow-bean-definition-overriding: true
-    allow-circular-references: true
-  jpa:
-    #开启SQL语句执行日志信息
-    show-sql: true
-    hibernate:
-      ddl-auto: update

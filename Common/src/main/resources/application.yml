@@ -4,9 +4,6 @@ spring:
     username: root
     password: xm
     driver-class-name: com.mysql.cj.jdbc.Driver
-  main:
-    allow-bean-definition-overriding: true
-    allow-circular-references: true
   jpa:
     #开启SQL语句执行日志信息
     show-sql: true
