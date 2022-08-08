@@ -3,6 +3,7 @@ package com.management.service;
 import com.management.common.ResponseResult;
 import com.management.dto.user.UserCreateRequest;
 import com.management.dto.user.UserDto;
+import com.management.dto.user.UserUpdateRequest;
 
 import java.util.List;
 
@@ -17,4 +18,8 @@ public interface UserService {
     UserDto get(String id);
 
     ResponseResult<Void> create(UserCreateRequest userCreateRequest);
+
+    ResponseResult<Void> update(String id, UserUpdateRequest userUpdateRequest);
+
+    ResponseResult<Void> delete(String id);
 }

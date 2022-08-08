@@ -32,3 +32,8 @@ spring:
       discovery:
         # 配置nacos注册中心地址
         server-addr: localhost:8848
+# 阿里爸爸能不能别log了
+logging:
+  level:
+    com.alibaba.nacos.client.naming: WARN
+    com.alibaba.nacos.client.config.impl: WARN

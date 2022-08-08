@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### nacos ###
+nacos-server-2.1.0/nacos/

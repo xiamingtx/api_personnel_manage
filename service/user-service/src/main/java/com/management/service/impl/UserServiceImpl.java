@@ -3,6 +3,7 @@ package com.management.service.impl;
 import com.management.common.ResponseResult;
 import com.management.dto.user.UserCreateRequest;
 import com.management.dto.user.UserDto;
+import com.management.dto.user.UserUpdateRequest;
 import com.management.entity.Role;
 import com.management.entity.User;
 import com.management.exception.BizException;
@@ -10,6 +11,7 @@ import com.management.exception.ExceptionType;
 import com.management.mapper.UserMapper;
 import com.management.repository.UserRepository;
 import com.management.service.UserService;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,10 +45,10 @@ public class UserServiceImpl implements UserService {
      * @date 2022/8/8 14:28
      * @return List<UserDto>
      */
-    @PreAuthorize("hasAuthority('admin')")
     @Override
     public List<UserDto> list() {
-        return repository.findAll().stream().map(mapper::toDto).collect(Collectors.toList());
+        return repository.findAll().stream().filter(item -> item.getIsDeleted() == 0)
+                .map(mapper::toDto).collect(Collectors.toList());
     }
 
     /**
@@ -56,14 +58,9 @@ public class UserServiceImpl implements UserService {
      * @param id
      * @return UserDto
      */
-    @PreAuthorize("hasAuthority('admin')")
     @Override
     public UserDto get(String id) {
-        Optional<User> userOptional = repository.findById(id);
-        if (!userOptional.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-        return mapper.toDto(userOptional.get());
+        return mapper.toDto(getUserById(id));
     }
 
     /**
@@ -72,8 +69,9 @@ public class UserServiceImpl implements UserService {
      * @date 2022/8/8 14:43
      * @param userCreateRequest
      */
-    @Transactional
     @Override
+    @Transactional
+    @Modifying
     public ResponseResult<Void> create(UserCreateRequest userCreateRequest) {
         // 查询用户是否已存在
         String username = userCreateRequest.getUsername();
@@ -96,5 +94,48 @@ public class UserServiceImpl implements UserService {
         role.setId("1");
         user.setRoles(Collections.singletonList(role));
         repository.save(user);
+    }
+
+    /**
+     * 修改用户
+     * @author 夏明
+     * @date 2022/8/8 18:16
+     * @param id
+     * @param userUpdateRequest
+     * @return ResponseResult<Void>
+     */
+    @Override
+    @Transactional
+    @Modifying
+    public ResponseResult<Void> update(String id, UserUpdateRequest userUpdateRequest) {
+        User user = mapper.updateEntity(getUserById(id),userUpdateRequest);
+        repository.save(user);
+        return new ResponseResult<>(2000, "修改成功");
+    }
+
+    private User getUserById(String id) {
+        Optional<User> userOptional = repository.findById(id);
+        if  (!userOptional.isPresent() || userOptional.get().getIsDeleted() == 1) {
+            throw new BizException(ExceptionType.USER_NOT_FOUND);
+        }
+        return userOptional.get();
+    }
+
+    /**
+     * 删除用户(逻辑删除)
+     * @author 夏明
+     * @date 2022/8/8 19:59
+     * @param id
+     * @return ResponseResult<Void>
+     */
+    @Override
+    @Transactional
+    @Modifying
+    public ResponseResult<Void> delete(String id) {
+        User user = getUserById(id);
+        // 设置逻辑删除字段为1
+        user.setIsDeleted(1);
+        repository.save(user);
+        return new ResponseResult<>(2000, "删除成功");
     }
 }

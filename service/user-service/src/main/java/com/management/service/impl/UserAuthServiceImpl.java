@@ -17,6 +17,7 @@ import com.management.repository.UserRepository;
 import com.management.service.UserAuthService;
 import org.flywaydb.core.internal.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -138,6 +139,7 @@ public class UserAuthServiceImpl implements UserAuthService {
      */
     @Override
     @Transactional
+    @Modifying
     public ResponseResult<Void> register(UserRegisterRequest userRegisterRequest) {
         // 查询用户是否已存在
         String username = userRegisterRequest.getUsername();
