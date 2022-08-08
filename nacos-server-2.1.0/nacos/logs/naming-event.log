@@ -1,0 +1,14 @@
+2022-08-08 12:34:18,050 ERROR [UPDATE-DOMAIN] Exception while taking item from LinkedBlockingDeque.
+
+2022-08-08 13:51:38,247 INFO {POS} {IP-DISABLED} valid: 192.168.60.1:8002@DEFAULT@auth-service, region: unknown, msg: client last beat: 1659937880715
+
+2022-08-08 14:59:32,411 INFO {POS} {IP-DISABLED} valid: 192.168.60.1:8002@DEFAULT@user-auth-service, region: unknown, msg: client last beat: 1659941954693
+
+2022-08-08 15:02:39,540 INFO {POS} {IP-DISABLED} valid: 192.168.60.1:8002@DEFAULT@user-auth-service, region: unknown, msg: client last beat: 1659942141444
+
+2022-08-08 15:02:51,951 INFO service: DEFAULT_GROUP@@user-auth-service {POS} {IP-ENABLED} valid: 192.168.60.1:8002@DEFAULT, region: unknown, msg: client beat ok
+
+2022-08-08 15:04:09,705 INFO {POS} {IP-DISABLED} valid: 192.168.60.1:8002@DEFAULT@user-auth-service, region: unknown, msg: client last beat: 1659942234451
+
+2022-08-08 15:04:24,512 INFO service: DEFAULT_GROUP@@user-auth-service {POS} {IP-ENABLED} valid: 192.168.60.1:8002@DEFAULT, region: unknown, msg: client beat ok
+
