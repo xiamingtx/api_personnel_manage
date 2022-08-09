@@ -32,7 +32,7 @@ import javax.annotation.Resource;
 public class SecurityConfiguration extends WebSecurityConfiguration {
 
     public static final String SECRET = "xm";
-    public static final long EXPIRATION_TIME = 3600000; // 1h
+    public static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1h
 
     @Resource
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;

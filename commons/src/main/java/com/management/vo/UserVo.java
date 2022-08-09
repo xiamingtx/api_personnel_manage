@@ -11,6 +11,9 @@ import java.util.List;
  */
 @Data
 public class UserVo {
+
+    private String id;
+
     private String username;
 
     private String nickname;
@@ -18,4 +21,8 @@ public class UserVo {
     private Gender gender;
 
     private List<RoleVo> roles; // 关联数据
+
+    private String mail;
+
+    private String mobile;
 }

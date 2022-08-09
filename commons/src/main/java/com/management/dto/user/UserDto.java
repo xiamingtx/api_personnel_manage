@@ -4,7 +4,6 @@ import com.management.dto.role.RoleDto;
 import com.management.enums.Gender;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,5 +23,7 @@ public class UserDto {
 
     private Gender gender;
 
-    private Date lastLoginTime;
+    private String mail;
+
+    private String mobile;
 }
