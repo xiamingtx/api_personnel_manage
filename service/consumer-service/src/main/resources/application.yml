@@ -1,0 +1,43 @@
+server:
+  port: 8004
+spring:
+  application:
+    name: consumer-service
+  # 配置邮件发送
+  mail:
+    # 163邮箱的地址为smtp.163.com，直接填写即可
+    host: smtp.163.com
+    # 你申请的163邮箱
+    username: 18307478153@163.com
+    # 注意密码是在开启smtp/pop3时自动生成的，记得保存一下，不然就找不到了
+    password: CHXQPBKVRIGKTFMB
+  # 配置redis
+  redis:
+    #Redis服务器地址
+    host: 127.0.0.1
+    #端口
+    port: 6379
+    #使用几号数据库
+    database: 0
+  cloud:
+    nacos:
+      discovery:
+        # 配置nacos注册中心地址
+        server-addr: localhost:8848
+    # 使用stream消息队列中间件
+    stream:
+      binders: #此处配置要绑定的rabbitmq的服务信息
+        code-rabbit: #绑定名称，随便起一个就行
+          type: rabbit #消息组件类型，这里使用的是RabbitMQ，就填写rabbit
+          environment: #服务器相关信息，按照下面的方式填写就行，爆红别管
+            spring:
+              rabbitmq:
+                host: 47.95.12.60
+                port: 5672
+                username: admin
+                password: admin
+                virtual-host: /
+      bindings:
+        #因为消费者是输入，默认名称为 方法名-in-index，这里我们将其指定为我们刚刚定义的交换机
+        code-in-0:
+          destination: code.exchange

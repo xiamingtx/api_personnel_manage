@@ -10,9 +10,9 @@ import com.management.exception.BizException;
 import com.management.exception.ExceptionType;
 import com.management.mapper.UserMapper;
 import com.management.repository.UserRepository;
+import com.management.service.UserAuthService;
 import com.management.service.UserService;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     UserMapper mapper;
 
     @Resource
-    PasswordEncoder passwordEncoder;
+    UserAuthServiceImpl userAuthService;
 
     /**
      * 查询用户列表
@@ -80,20 +80,8 @@ public class UserServiceImpl implements UserService {
             throw new BizException(ExceptionType.USER_NAME_DUPLICATE);
         }
         User user = mapper.createEntity(userCreateRequest);
-        addUser(user);
+        userAuthService.addUser(user);
         return new ResponseResult<>(2000, "添加成功!");
-    }
-
-    public void addUser(User user) {
-        // 对密码进行加密
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        // 默认昵称
-        user.setNickname(user.getUsername());
-        // 设置默认权限
-        Role role = new Role();
-        role.setId("1");
-        user.setRoles(Collections.singletonList(role));
-        repository.save(user);
     }
 
     /**

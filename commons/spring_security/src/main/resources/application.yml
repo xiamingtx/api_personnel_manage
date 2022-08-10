@@ -1,0 +1,36 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: spring-security
+  # 配置允许覆盖bean定义和循环引用
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  # 配置mysql数据库
+  datasource:
+    url: jdbc:mysql://localhost:3306/personnel_management
+    username: root
+    password: xm
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  # jpa设置
+  jpa:
+    #开启SQL语句执行日志信息
+    show-sql: true
+    # 也可以设置jpa.generate-ddl:false
+    hibernate:
+      ddl-auto: none
+  # 配置redis
+  redis:
+    #Redis服务器地址
+    host: 127.0.0.1
+    #端口
+    port: 6379
+    #使用几号数据库
+    database: 0
+  # 配置SpringCloud
+  cloud:
+    nacos:
+      discovery:
+        # 配置nacos注册中心地址
+        server-addr: localhost:8848

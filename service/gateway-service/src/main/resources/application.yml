@@ -14,8 +14,19 @@ spring:
           enabled: true # 表明开启gateway服务注册与发现的功能
       # 配置路由，注意这里是个列表，每一项都包含了很多信息
       routes:
-        - id: user-auth-service   # 路由名称 自定义 唯一即可
-          uri: lb://user-auth-service  # 路由的目标地址  lb（loadBalance）就是负载均衡，后面跟服务名称
+        # 验证服务
+        - id: auth-service
+          uri: lb://spring-security
+          predicates:
+            - Path=/auth/**
+        # 用户服务
+        - id: user-service   # 路由名称 自定义 唯一即可
+          uri: lb://user-service  # 路由的目标地址  lb（loadBalance）就是负载均衡，后面跟服务名称
           predicates: # 路由规则，断言什么请求会被路由
             # 只要是访问的这个路径，一律都被路由到上面指定的服务
-            - Path=/user/**, /auth/**  #如果使用多个路径 用,隔开
+            - Path=/user/**  #如果使用多个路径 用,隔开
+        # 消息队列 publisher
+        - id: publisher-service
+          uri: lb://publisher-service
+          predicates:
+            - Path=/publish/**

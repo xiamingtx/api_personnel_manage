@@ -10,73 +10,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>commons</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>spring_security</module>
+        <module>service_base</module>
+        <module>fly_way</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <!--引入jpa依赖作为ORM框架-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <!--引入mysql依赖提供数据库连接 默认hikari-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <!--提供了userDetails-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <!--序列化工具-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>2.0.10.graal</version>
-        </dependency>
-
-        <!--ksuid作为id生成策略-->
-        <dependency>
-            <groupId>com.github.ksuid</groupId>
-            <artifactId>ksuid</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-
-        <!-- 校验器 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-            <version>2.7.2</version>
-        </dependency>
-        <!-- 引入flyway作为数据库版本记录工具-->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-mysql</artifactId>
-        </dependency>
-
-        <!-- 使用mapstruct作为转换器 -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>1.5.2.Final</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.2.Final</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
-
 
 </project>

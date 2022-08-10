@@ -1,0 +1,36 @@
+server:
+  port: 8003
+spring:
+  application:
+    name: publisher-service
+  # 配置mysql数据库
+  datasource:
+    url: jdbc:mysql://localhost:3306/personnel_management
+    username: root
+    password: xm
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  # 配置允许覆盖bean定义和循环引用
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  cloud:
+    nacos:
+      discovery:
+        # 配置nacos注册中心地址
+        server-addr: localhost:8848
+    # 使用stream消息队列中间件
+    stream:
+      binders: #此处配置要绑定的rabbitmq的服务信息
+        code-rabbit: #绑定名称，随便起一个就行
+          type: rabbit #消息组件类型，这里使用的是RabbitMQ，就填写rabbit
+          environment: #服务器相关信息，按照下面的方式填写就行，爆红别管
+            spring:
+              rabbitmq:
+                host: 47.95.12.60
+                port: 5672
+                username: admin
+                password: admin
+                virtual-host: /
+      bindings:
+        code-out-0:
+          destination: code.exchange
