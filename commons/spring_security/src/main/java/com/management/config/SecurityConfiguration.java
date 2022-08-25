@@ -83,9 +83,6 @@ public class SecurityConfiguration extends WebSecurityConfiguration {
                     .authenticationEntryPoint(authenticationEntryPoint)
                     .accessDeniedHandler(accessDeniedHandler)
                 .and()
-//                 允许跨域
-                .cors()
-                .and()
                 .build();
     }
 }

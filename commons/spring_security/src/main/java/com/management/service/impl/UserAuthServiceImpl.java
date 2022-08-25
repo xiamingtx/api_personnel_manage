@@ -54,14 +54,6 @@ public class UserAuthServiceImpl implements UserAuthService {
     PasswordEncoder passwordEncoder;
 
 
-    /**
-     * 用户登录接口
-     *
-     * @param user
-     * @return ResponseResult<Map < String>>
-     * @author 夏明
-     * @date 2022/8/6 22:28
-     */
     @Override
     public ResponseResult<Map<String, String>> login(UserLoginRequest user) {
         // AuthenticationManager authenticate进行用户认证
@@ -87,13 +79,6 @@ public class UserAuthServiceImpl implements UserAuthService {
         return new ResponseResult<>(2000, "登录成功", map);
     }
 
-    /**
-     * 用户注册接口
-     * @author 夏明
-     * @date 2022/8/7 18:05
-     * @param
-     * @return ResponseResult
-     */
     @Override
     @Transactional
     @Modifying
@@ -137,13 +122,6 @@ public class UserAuthServiceImpl implements UserAuthService {
         repository.save(user);
     }
 
-    /**
-     * 用户退出登录
-     *
-     * @return ResponseResult
-     * @author 夏明
-     * @date 2022/8/6 23:31
-     */
     @Override
     public ResponseResult<Void> logout() {
         // 获取SecurityContextHolder中的username
@@ -156,12 +134,6 @@ public class UserAuthServiceImpl implements UserAuthService {
         return new ResponseResult<>(2000, "注销成功");
     }
 
-    /**
-     * 获取当前用户信息
-     * @author 夏明
-     * @date 2022/8/8 10:16
-     * @return ResponseResult<UserVo>
-     */
     @Override
     public UserDto fetchCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

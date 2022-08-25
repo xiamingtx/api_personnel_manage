@@ -21,6 +21,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+        <!-- 【额外注意：】必须增加数据库连接pom依赖！ 否则会出现项目启动成功，但不会自动生成表的问题！-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
 
         <!--引入mysql依赖提供数据库连接 默认hikari-->
         <dependency>

@@ -39,36 +39,17 @@ public class UserServiceImpl implements UserService {
     @Resource
     UserAuthServiceImpl userAuthService;
 
-    /**
-     * 查询用户列表
-     * @author 夏明
-     * @date 2022/8/8 14:28
-     * @return List<UserDto>
-     */
     @Override
     public List<UserDto> list() {
         return repository.findAll().stream().filter(item -> item.getIsDeleted() == 0)
                 .map(mapper::toDto).collect(Collectors.toList());
     }
 
-    /**
-     * 根据id查询用户
-     * @author 夏明
-     * @date 2022/8/8 14:28
-     * @param id
-     * @return UserDto
-     */
     @Override
     public UserDto get(String id) {
         return mapper.toDto(getUserById(id));
     }
 
-    /**
-     * 添加用户
-     * @author 夏明
-     * @date 2022/8/8 14:43
-     * @param userCreateRequest
-     */
     @Override
     @Transactional
     @Modifying
@@ -84,14 +65,6 @@ public class UserServiceImpl implements UserService {
         return new ResponseResult<>(2000, "添加成功!");
     }
 
-    /**
-     * 修改用户
-     * @author 夏明
-     * @date 2022/8/8 18:16
-     * @param id
-     * @param userUpdateRequest
-     * @return ResponseResult<Void>
-     */
     @Override
     @Transactional
     @Modifying
@@ -109,13 +82,6 @@ public class UserServiceImpl implements UserService {
         return userOptional.get();
     }
 
-    /**
-     * 删除用户(逻辑删除)
-     * @author 夏明
-     * @date 2022/8/8 19:59
-     * @param id
-     * @return ResponseResult<Void>
-     */
     @Override
     @Transactional
     @Modifying

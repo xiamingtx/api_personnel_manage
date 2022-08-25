@@ -9,6 +9,20 @@ spring:
         # 配置nacos注册中心地址
         server-addr: localhost:8848
     gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: # 允许哪些网站的跨域请求 allowedOrigins: “*” 允许所有网站
+              - "*"
+            allowedMethods: # 允许的跨域ajax的请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带的头信息
+            maxAge: 3600 # 这次跨域检测的有效期
       discovery:
         locator:
           enabled: true # 表明开启gateway服务注册与发现的功能
