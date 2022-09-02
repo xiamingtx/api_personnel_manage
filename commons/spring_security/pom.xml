@@ -39,17 +39,17 @@
         </dependency>
 
         <!--引入redisson依赖 为后续分布式做准备-->
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson</artifactId>
-            <version>3.17.5</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--    <groupId>org.redisson</groupId>-->
+        <!--    <artifactId>redisson</artifactId>-->
+        <!--    <version>3.17.5</version>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.79.Final</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--    <groupId>io.netty</groupId>-->
+        <!--    <artifactId>netty-all</artifactId>-->
+        <!--    <version>4.1.79.Final</version>-->
+        <!--</dependency>-->
 
         <!--序列化工具-->
         <dependency>

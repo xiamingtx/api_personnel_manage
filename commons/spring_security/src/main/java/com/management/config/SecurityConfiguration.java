@@ -29,8 +29,9 @@ import javax.annotation.Resource;
 public class SecurityConfiguration extends WebSecurityConfiguration {
 
     public static final String SECRET = "xm";
-    public static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1h
-
+    public static final long EXPIRATION_TIME = 1000 * 60 * 30; // 30min
+//    public static final long EXPIRATION_TIME = 1000 * 60; // 1min 测试用
+    public static final long REFRESH_TIME = EXPIRATION_TIME / 2;
     @Resource
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
@@ -72,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfiguration {
                 .authorizeRequests(authorize -> authorize
                         // 配置请求 登录相关接口设置匿名访问
                         .antMatchers("/auth/login", "/auth/register").anonymous()
-                        .antMatchers("/publish/mail_code").permitAll()
+                        .antMatchers("/publish/mail_code", "/auth/refresh").permitAll()
                         // 其他地址的访问均需验证权限
                         .anyRequest().authenticated()
                 )

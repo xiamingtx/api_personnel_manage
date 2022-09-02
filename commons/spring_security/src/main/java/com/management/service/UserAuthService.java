@@ -48,4 +48,12 @@ public interface UserAuthService {
      * @return ResponseResult<UserVo>
      */
     UserDto fetchCurrentUser();
+
+    /**
+     * token刷新
+     * @author 夏明
+     * @date 2022/9/2 14:31
+     * @return ResponseResult<Map<String>>
+     */
+    ResponseResult<Map<String, String>> refresh(String refreshToken);
 }

@@ -46,4 +46,9 @@ public class authController {
         return new ResponseResult<>(2000, "查询成功",
                 mapper.toVo(userService.fetchCurrentUser()));
     }
+
+    @PostMapping("/refresh")
+    public ResponseResult<Map<String, String>> refresh(@RequestHeader("refresh_token") String refreshToken) {
+        return userService.refresh(refreshToken);
+    }
 }

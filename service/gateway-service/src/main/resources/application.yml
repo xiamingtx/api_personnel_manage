@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: gateway-service
+  # 配置允许覆盖bean定义和循环引用
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
   cloud:
     nacos:
       discovery:

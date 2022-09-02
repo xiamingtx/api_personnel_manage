@@ -16,6 +16,8 @@ import com.management.exception.ExceptionType;
 import com.management.mapper.UserMapper;
 import com.management.repository.UserRepository;
 import com.management.service.UserAuthService;
+import com.management.utils.JWTUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +38,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  */
 @Service
+@Slf4j
 public class UserAuthServiceImpl implements UserAuthService {
 
     @Resource
@@ -66,18 +69,26 @@ public class UserAuthServiceImpl implements UserAuthService {
         // 如果认证通过了, 通过username生成jwt jwt存入ResponseResult返回
         UserDetailsEntity userDetailsEntity = (UserDetailsEntity) authenticate.getPrincipal();
         String username = userDetailsEntity.getUser().getUsername();
-        String token = JWT.create()
-                .withSubject(username)
-                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConfiguration.EXPIRATION_TIME))
-                .sign(Algorithm.HMAC512(SecurityConfiguration.SECRET.getBytes()));
-        Map<String, String> map = new HashMap<>();
-        map.put("token", token);
-        // 把完整的用户信息存入redis, username作为key
-        template.opsForValue().set("login:" + username, JSON.toJSONString(userDetailsEntity),
-                SecurityConfiguration.EXPIRATION_TIME, TimeUnit.MILLISECONDS);
-
+        Map<String, String> map = getAndStoreToken(userDetailsEntity, username);
         return new ResponseResult<>(2000, "登录成功", map);
     }
+
+    private Map<String, String> getAndStoreToken(UserDetailsEntity userDetailsEntity, String username) {
+        // 这里是创建access_token
+        String accessToken = JWTUtils.createJWT(username, SecurityConfiguration.EXPIRATION_TIME);
+        // 这里是创建refresh_token
+        String refreshToken = JWTUtils.createJWT(username, SecurityConfiguration.EXPIRATION_TIME * 2);
+        Map<String, String> map = new HashMap<>();
+        map.put("access_token", accessToken);
+        map.put("refresh_token", refreshToken);
+        // 把完整的用户信息存入redis, username作为key
+        template.opsForValue().set("access_token:" + username, JSON.toJSONString(userDetailsEntity),
+                SecurityConfiguration.EXPIRATION_TIME, TimeUnit.MILLISECONDS);
+        template.opsForValue().set("refresh_token:" + username, JSON.toJSONString(userDetailsEntity),
+                SecurityConfiguration.EXPIRATION_TIME * 2, TimeUnit.MILLISECONDS);
+        return map;
+    }
+
 
     @Override
     @Transactional
@@ -139,5 +150,19 @@ public class UserAuthServiceImpl implements UserAuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = repository.findUserByUsername(authentication.getName());
         return mapper.toDto(user);
+    }
+
+    @Override
+    public ResponseResult<Map<String, String>> refresh(String refreshToken) {
+//        log.info("收到: {}", refreshToken);
+        String username = JWTUtils.getSubject(refreshToken);
+        String redisKey = "refresh_token:" + username;
+        Long expire = template.getExpire(redisKey);
+        if (expire != null && expire > 0) {
+            UserDetailsEntity userDetailsEntity = JSON.parseObject(template.opsForValue().get(redisKey), UserDetailsEntity.class);
+            Map<String, String> map = getAndStoreToken(userDetailsEntity, username);
+            return new ResponseResult<>(2000, "刷新成功",map);
+        }
+        return new ResponseResult<>(2001, "申请刷新失败");
     }
 }
